@@ -1,4 +1,4 @@
-# NOTE: COPIED DIRECTLY FROM [HERE](https://github.com/kratzert/multiple_forcing). All Credits go to @kratzert and his team! 
+# NOTE: COPIED DIRECTLY FROM [HERE](https://github.com/kratzert/multiple_forcing). All Credits go to @kratzert and his team! 
 
 # leveraging synergy in multiple meteorological datasets with deep learning for rainfall-runoff modeling
 
