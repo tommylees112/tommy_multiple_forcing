@@ -139,13 +139,15 @@ save_validation_results: False
 dataset: camels_gb  # camels_gb  camels_us
 
 # Path to CAMELS data set
-data_dir: /Volumes/Lees_Extend/data/CAMELS/CAMELS_TEST  # CAMELS_GB_DATASET
+data_dir: /soge-home/projects/crop_yield/ml_drought/data/raw/CAMELS_GB_DATASET
 # /home/jovyan/ml_drought/data/raw/CAMELS_GB_DATASET
+# /Volumes/Lees_Extend/data/CAMELS/CAMELS_TEST
+# /Volumes/Lees_Extend/data/CAMELS/ CAMELS_GB_DATASET
 
 # Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
 # new hdf5 file
-h5_file: ./data/train_data/train_data.h5
-scaler_file: ./data/train_data/train_data_scaler.p
+h5_file:   # ./data/train_data/train_data.h5
+scaler_file:   # ./data/train_data/train_data_scaler.p
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
