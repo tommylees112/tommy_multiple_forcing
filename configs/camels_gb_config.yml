@@ -14,8 +14,8 @@ test_basin_file: ./data/test_basins.txt
 # training, validation and test time periods (format = 'dd/mm/yyyy')
 train_start_date: '01/10/1999'
 train_end_date: '30/09/2008'
-val_start_date: '01/10/1980'
-val_end_date: '30/09/1989'
+validation_end_date: '01/10/1980'
+validation_start_date: '30/09/1989'
 test_start_date: '01/10/1989'
 test_end_date: '30/09/1999'
 # train_end_date: '30/09/1999'
@@ -146,8 +146,8 @@ data_dir: /soge-home/projects/crop_yield/ml_drought/data/raw/CAMELS_GB_DATASET
 
 # Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
 # new hdf5 file
-h5_file:   # ./data/train_data/train_data.h5
-scaler_file:   # ./data/train_data/train_data_scaler.p
+h5_file: ./data/train_data/train_data.h5
+scaler_file: ./data/train_data/train_data_scaler.p
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
