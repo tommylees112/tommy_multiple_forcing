@@ -1,0 +1,200 @@
+# --- Experiment configurations --------------------------------------------------------------------
+
+# experiment name, used as folder name
+experiment_name: tommy_camels_gb
+
+# place to store run directory (if empty runs are stored in code_dir/runs/)
+run_dir:
+
+# files to specify training, validation and test basins (relative to code root or absolute path)
+train_basin_file: ./data/test_basins.txt  # camels_gb_basin_list.txt  gb_basins_sub.txt
+validation_basin_file: ./data/test_basins.txt
+test_basin_file: ./data/test_basins.txt
+
+# training, validation and test time periods (format = 'dd/mm/yyyy')
+train_start_date: '01/10/1999'
+train_end_date: '30/09/2008'
+validation_end_date: '01/10/1980'
+validation_start_date: '30/09/1989'
+test_start_date: '01/10/1989'
+test_end_date: '30/09/1999'
+# train_end_date: '30/09/1999'
+# train_start_date: '01/10/1979'
+# validation_end_date: '30/09/2006'
+# validation_start_date: '01/10/1999'
+# test_end_date: '30/09/2018'
+# test_start_date: '01/10/2006'
+
+# fixed seed, leave empty to use a random seed
+seed:
+
+# which GPU (id) to use [in format of cuda:0, cuda:1 etc, or cpu or None]
+device: cuda:0
+
+# --- Validation configuration ---------------------------------------------------------------------
+
+# specify after how many epochs to perform validation
+validate_every: 1
+
+# specify how many random basins to use for validation
+validate_n_random_basins: 4
+
+# specify which metrics to calculate during validation (see codebase.evaluation.metrics)
+metrics:
+- NSE
+- KGE
+- Alpha-NSE
+- Beta-NSE
+
+# --- Model configuration --------------------------------------------------------------------------
+
+# base model type [cudalstm]
+# (has to match the if statement in modelzoo/__init__.py)
+model: cudalstm
+
+# prediction head [regression]. Define the head specific parameters below
+head: regression
+
+# ----> Embedding network settings <----
+# DELETE FOR CUDALSTM
+
+# define number of neurons per layer in the FC network used as embedding/shortcut network
+embedding_hiddens:
+- 30
+- 20
+- 64
+
+# activation function of embedding network (currently only tanh supported)
+embedding_activation: tanh
+
+# dropout applied to embedding network
+embedding_dropout: 0.0
+
+# ----> General settings <----
+
+# Number of cell states of the LSTM
+hidden_size: 64
+
+# Initial bias value of the forget gate
+initial_forget_bias: 3
+
+# Dropout applied to the output of the LSTM
+output_dropout: 0.4
+
+# --- Training configuration -----------------------------------------------------------------------
+
+# specify optimizer [Adam, Adadelta]
+optimizer: Adam
+
+# specify loss [MSE, NSE]
+loss: MSE
+
+# specify learning rates to use starting at specific epochs (0 is the initial learning rate)
+learning_rate:
+    0: 1e-3
+    10: 5e-4
+    20: 1e-4
+
+# Mini-batch size
+batch_size: 256
+
+# Number of training epochs
+epochs: 30
+
+# If True, clips norm of gradients
+clip_gradient_norm: True
+clip_gradient_value: 1
+
+# Defines which time steps are used to calculate the loss. Can't be larger than seq_length
+# seq to 1: seq to 10 // calculate loss over the last 10 timesteps
+predict_last_n: 1
+
+# Length of the input sequence
+seq_length: 365
+
+# Number of parallel workers used in the data pipeline (for pytorch dataloader)
+num_workers: 16
+
+# Log the training loss every n steps
+log_interval: 5
+
+# If true, writes logging results into tensorboard file
+log_tensorboard: True
+
+# If true, logs time series plot of validation results for n basins (set log_figure_n_basins)
+log_figure: True
+
+# Number of random basins to log as plot during validation
+log_figure_n_basins: 1
+
+# Save model weights every n epochs
+save_weights_every: 1
+
+# Store the results of the validation to disk (save the timeseries pred/obs)
+save_validation_results: False
+
+
+# --- Data configurations --------------------------------------------------------------------------
+
+dataset: camels_gb  # camels_gb  camels_us
+
+# Path to CAMELS data set
+data_dir: /home/jovyan/ml_drought/data/raw/CAMELS_GB_DATASET
+# /soge-home/projects/crop_yield/ml_drought/data/raw/CAMELS_GB_DATASET
+# /home/jovyan/ml_drought/data/raw/CAMELS_GB_DATASET
+# /Volumes/Lees_Extend/data/CAMELS/CAMELS_TEST
+# /Volumes/Lees_Extend/data/CAMELS/ CAMELS_GB_DATASET
+
+# Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
+# new hdf5 file
+h5_file:   # ./data/train_data/train_data.h5
+scaler_file:   # ./data/train_data/train_data_scaler.p
+
+# whether to load the entire data into memory or not (2x as much data if cache_validation: True)
+cache_data: True
+cache_validation_data: True
+
+# Forcing product [daymet, maurer, maurer_extended, nldas, nldas_extended]
+# can be either a list of forcings or a single forcing product
+# TOMMY: -> CHANGE (ignore this)
+# forcings: maurer_extended
+
+# variables to use as time series input (names match the data file column headers)
+# Note: In case of multiple input forcing products, you have to append the forcing product behind
+# each variable. E.g. 'prcp(mm/day)' of the daymet product is 'prcp(mm/day)_daymet'
+# TOMMY: these are used as input variables
+dynamic_inputs:
+- precipitation
+- peti
+- temperature
+
+# which columns to use as target
+target_variable:
+- discharge_spec
+
+# Which CAMELS attributes to use. Leave empty if none should be used
+camels_attributes:
+- pet_mean
+- aridity
+- p_seasonality
+
+# TOMMY: --> Not implemented
+# Path to pickle file(s) containing additional data. Each pickle file must contain a dictionary
+# with one key for each basin and the value is a time indexed data frame, where each column is a
+# feature.
+# Convention: If a column is used as static input, the value to use for specific sample should be in
+# same row (datetime) as the target discharge value.
+additional_feature_files:
+
+# columns of the data frame to use as (additional) static inputs for each sample. Must be present in
+# the above linked additional feature files. Leave empty to not use any
+static_inputs:
+
+# whether to use basin id one hot encoding as (additional) static input
+use_basin_id_encoding: False
+
+
+
+
+
+
