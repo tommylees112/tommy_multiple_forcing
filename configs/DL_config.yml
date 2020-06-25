@@ -164,7 +164,7 @@ scaler_file: /home/jovyan/tommy_multiple_forcing/runs/tommy_camels_gb_2506_0846/
 # ./data/train_data/train_data_scaler.p
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
-cache_data: True
+cache_data: False
 cache_validation_data: False
 
 # Forcing product [daymet, maurer, maurer_extended, nldas, nldas_extended]
