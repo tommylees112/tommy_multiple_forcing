@@ -10,17 +10,25 @@ run_dir:
 
 
 # files to specify training, validation and test basins (relative to code root or absolute path)
-train_basin_file: ./data/test_basins.txt  # camels_gb_basin_list.txt  gb_basins_sub.txt
-validation_basin_file: ./data/test_basins.txt
-test_basin_file: ./data/test_basins.txt
+train_basin_file: ./data/camels_gb_basin_list.txt  # camels_gb_basin_list.txt  gb_basins_sub.txt  test_basins.txt
+validation_basin_file: ./data/camels_gb_basin_list.txt
+test_basin_file: ./data/camels_gb_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
-train_start_date: '01/10/1999'
-train_end_date: '30/09/2008'
-validation_start_date: '01/10/1980'
-validation_end_date: '30/09/1989'
-test_start_date: '01/10/1989'
-test_end_date: '30/09/1999'
+train_start_date: '01/01/2000'
+train_end_date: '31/12/2009'
+validation_start_date: '01/01/1980'
+validation_end_date: '31/12/1989'
+test_start_date: '01/01/1989'
+test_end_date: '31/12/1999'
+
+# train_start_date: '01/10/1999'
+# train_end_date: '30/09/2008'
+# validation_start_date: '01/10/1980'
+# validation_end_date: '30/09/1989'
+# test_start_date: '01/10/1989'
+# test_end_date: '30/09/1999'
+
 # train_end_date: '30/09/1999'
 # train_start_date: '01/10/1979'
 # validation_end_date: '30/09/2006'
@@ -37,7 +45,7 @@ device: cuda:0
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 1
+validate_every: 5
 
 # specify how many random basins to use for validation
 validate_n_random_basins: 4
