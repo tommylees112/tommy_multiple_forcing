@@ -7,17 +7,19 @@ experiment_name: tommy_camels_gb
 run_dir:
 
 # files to specify training, validation and test basins (relative to code root or absolute path)
-train_basin_file: ./data/test_basins.txt  # camels_gb_basin_list.txt  gb_basins_sub.txt
-validation_basin_file: ./data/test_basins.txt
-test_basin_file: ./data/test_basins.txt
+# camels_gb_basin_list.txt  gb_basins_sub.txt  test_basins.txt
+train_basin_file: ./data/camels_gb_basin_list.txt
+validation_basin_file: ./data/camels_gb_basin_list.txt
+test_basin_file: ./data/camels_gb_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
-train_start_date: '01/10/1999'
-train_end_date: '30/09/2008'
-validation_start_date: '01/10/1980'
-validation_end_date: '30/09/1989'
-test_start_date: '01/10/1989'
-test_end_date: '30/09/1999'
+train_start_date: '01/01/2000'
+train_end_date: '31/12/2009'
+validation_start_date: '01/01/1980'
+validation_end_date: '31/12/1989'
+test_start_date: '01/01/1989'
+test_end_date: '31/12/1999'
+
 # train_end_date: '30/09/1999'
 # train_start_date: '01/10/1979'
 # validation_end_date: '30/09/2006'
@@ -34,7 +36,7 @@ device: None
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 1
+validate_every: 5
 
 # specify how many random basins to use for validation
 validate_n_random_basins: 4
@@ -136,7 +138,8 @@ save_validation_results: False
 
 # --- Data configurations --------------------------------------------------------------------------
 
-dataset: camels_gb  # camels_gb  camels_us
+# camels_gb  camels_us
+dataset: camels_gb
 
 # Path to CAMELS data set
 data_dir: /soge-home/projects/crop_yield/ml_drought/data/raw/CAMELS_GB_DATASET
@@ -146,8 +149,9 @@ data_dir: /soge-home/projects/crop_yield/ml_drought/data/raw/CAMELS_GB_DATASET
 
 # Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
 # new hdf5 file
-h5_file: ./data/train_data/train_data.h5
-scaler_file: ./data/train_data/train_data_scaler.p
+#  train_data.h5  train_data_scaler.p
+h5_file:
+scaler_file:
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
@@ -191,9 +195,3 @@ static_inputs:
 
 # whether to use basin id one hot encoding as (additional) static input
 use_basin_id_encoding: False
-
-
-
-
-
-
