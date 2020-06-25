@@ -158,8 +158,10 @@ data_dir: /home/jovyan/ml_drought/data/raw/CAMELS_GB_DATASET
 
 # Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
 # new hdf5 file
-h5_file:   # ./data/train_data/train_data.h5
-scaler_file:   # ./data/train_data/train_data_scaler.p
+h5_file: /home/jovyan/tommy_multiple_forcing/runs/tommy_camels_gb_2506_0846/train_data/train_data.h5
+scaler_file: /home/jovyan/tommy_multiple_forcing/runs/tommy_camels_gb_2506_0846/train_data/train_data_scaler.p
+# ./data/train_data/train_data.h5
+# ./data/train_data/train_data_scaler.p
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
