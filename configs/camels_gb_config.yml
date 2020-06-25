@@ -31,7 +31,7 @@ test_end_date: '31/12/1999'
 seed:
 
 # which GPU (id) to use [in format of cuda:0, cuda:1 etc, or cpu or None]
-device: None
+device: cuda:0
 
 # --- Validation configuration ---------------------------------------------------------------------
 
