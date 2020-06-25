@@ -5,7 +5,7 @@ experiment_name: tommy_camels_gb
 
 
 # place to store run directory (if empty runs are stored in code_dir/runs/)
-run_dir: /home/jovyan/tommy_multiple_forcing/runs/tommy_camels_gb_2406_1646
+run_dir:
 # /home/jovyan/tommy_multiple_forcing/runs/tommy_camels_gb_2406_1646
 
 
