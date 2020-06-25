@@ -112,14 +112,14 @@ class Tester(object):
         logger: Logger = None,
     ) -> dict:
         """Evaluate the model.
-        
+
         Parameters
         ----------
         epoch : int
-            (optional) Define a specific epoch to evaluate. By default, the weights of the last 
-            epoch are used. 
+            (optional) Define a specific epoch to evaluate. By default, the weights of the last
+            epoch are used.
         save_results : bool
-            (optional) If True, stores the evaluation results in the run directory. By default, 
+            (optional) If True, stores the evaluation results in the run directory. By default,
             True.
         metrics: list
             (optional) List of metrics to compute during evaluation. Still WIP.
@@ -155,6 +155,7 @@ class Tester(object):
         pbar.set_description(
             "# Validation" if self.mode == "validation" else "# Evaluation"
         )
+        basins_without_train_data = []
 
         for basin in pbar:
 
@@ -164,14 +165,19 @@ class Tester(object):
             else:
                 additional_features = []
 
-            ds = get_basin_dataset(
-                basin=basin,
-                cfg=self.cfg,
-                mode=self.mode,
-                additional_features=additional_features,
-                id_to_int=self.id_to_int,
-                scaler=self.scaler,
-            )
+            try:
+                ds = get_basin_dataset(
+                    basin=basin,
+                    cfg=self.cfg,
+                    mode=self.mode,
+                    additional_features=additional_features,
+                    id_to_int=self.id_to_int,
+                    scaler=self.scaler,
+                )
+            except NoTrainDataError as error:
+                # skip basin
+                basins_without_train_data.append(basin)
+                continue
 
             loader = DataLoader(ds, batch_size=self.cfg["batch_size"], num_workers=0)
 
@@ -241,6 +247,12 @@ class Tester(object):
 
         if save_results:
             self._save_results(results, epoch)
+
+        if basins_without_train_data != []:
+            print(
+                "### The following basins were skipped, since they don't have discharge observations in the validation period"
+            )
+            print(basins_without_train_data)
 
         return results
 
