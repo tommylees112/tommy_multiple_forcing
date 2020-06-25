@@ -17,6 +17,8 @@ import torch
 
 from codebase.data.basedatasetbasin import BaseDatasetBasin
 from codebase.data.utils import load_camels_attributes, load_discharge, load_forcings
+from codebase.errors import NoTrainDataError
+
 
 class CamelsGBCSV(BaseDatasetBasin):
     def __init__(self,
@@ -56,8 +58,12 @@ class CamelsGBCSV(BaseDatasetBasin):
             for d in (self.data_dir / "Catchment_Timeseries").glob("*.csv")
         ]
         bool_list = [str(id) == str(self.basin) for id in gauge_ids]
+
+        # catch '' as example basin
+        if sum(bool_list) == 0:
+            raise NoTrainDataError
         assert (
-            sum(bool_list) == 1
+            sum(bool_list) > 0
         ), f"Only expect to find one gauge id with id : {self.basin}"
 
         csv_file = np.array([d for d in (self.data_dir / "Catchment_Timeseries").glob("*.csv")])[bool_list][
