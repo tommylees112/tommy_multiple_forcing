@@ -150,8 +150,8 @@ data_dir: /home/thomas_lees112_gmail_com/CAMELS_GB_DATASET
 # Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
 # new hdf5 file
 #  train_data.h5  train_data_scaler.p
-h5_file: /home/thomas_lees112_gmail_com/tommy_multiple_forcing/runs/tommy_camels_gb_2506_1250/train_data/train_data.h5
-scaler_file: /home/thomas_lees112_gmail_com/tommy_multiple_forcing/runs/tommy_camels_gb_2506_1250/train_data/train_data_scaler.p
+h5_file:  # /home/thomas_lees112_gmail_com/tommy_multiple_forcing/runs/tommy_camels_gb_2506_1250/train_data/train_data.h5
+scaler_file:  # /home/thomas_lees112_gmail_com/tommy_multiple_forcing/runs/tommy_camels_gb_2506_1250/train_data/train_data_scaler.p
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
