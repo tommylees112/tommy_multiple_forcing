@@ -142,7 +142,7 @@ save_validation_results: False
 dataset: camels_gb
 
 # Path to CAMELS data set
-data_dir: /home/thomas_lees112_gmail_com/CAMELS_GB_DATASET
+data_dir: /home/thomas_lees/CAMELS_GB_DATASET
 # /home/jovyan/ml_drought/data/raw/CAMELS_GB_DATASET
 # /Volumes/Lees_Extend/data/CAMELS/CAMELS_TEST
 # /Volumes/Lees_Extend/data/CAMELS/ CAMELS_GB_DATASET
