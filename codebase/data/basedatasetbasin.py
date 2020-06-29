@@ -116,38 +116,42 @@ class BaseDatasetBasin(Dataset):
             # we use (seq_len) time steps before start for warmup
             warmup_start_date = start_date - pd.DateOffset(days=self.seq_length - 1)
             df_sub = df[warmup_start_date:end_date]
+            try:
+                # store first and last date of the selected period (including warm_start), needed for validation/testing
+                self.period_start = df_sub.index[0]
+                self.period_end = df_sub.index[-1]
 
-            # store first and last date of the selected period (including warm_start), needed for validation/testing
-            self.period_start = df_sub.index[0]
-            self.period_end = df_sub.index[-1]
+                x_d = self._get_feature_array(df=df_sub, features=self.dynamic_inputs)
+                y = self._get_feature_array(df=df_sub, features=self.target_variable)
 
-            x_d = self._get_feature_array(df=df_sub, features=self.dynamic_inputs)
-            y = self._get_feature_array(df=df_sub, features=self.target_variable)
+                if np.isnan(y).sum() == y.size:
+                    raise NoTrainDataError(
+                        "Basin contains no valid discharge observations in selected period."
+                    )
 
-            if np.isnan(y).sum() == y.size:
-                raise NoTrainDataError(
-                    "Basin contains no valid discharge observations in selected period."
+                if self.static_inputs:
+                    x_s = self._get_feature_array(df=df_sub, features=self.static_inputs)
+                else:
+                    x_s = None
+
+                # normalize data, reshape for LSTM training and remove invalid samples
+                if not self.is_train:
+                    x_d = (x_d - self.scaler["dyn_mean"]) / self.scaler["dyn_std"]
+                    if x_s is not None:
+                        x_s = (x_s - self.scaler["stat_mean"]) / self.scaler["stat_std"]
+
+                x_d, x_s, y = reshape_data(
+                    x_d=x_d, x_s=x_s, y=y, seq_length=self.seq_length
                 )
 
-            if self.static_inputs:
-                x_s = self._get_feature_array(df=df_sub, features=self.static_inputs)
-            else:
-                x_s = None
-
-            # normalize data, reshape for LSTM training and remove invalid samples
-            if not self.is_train:
-                x_d = (x_d - self.scaler["dyn_mean"]) / self.scaler["dyn_std"]
+                x_d_list.append(x_d)
+                y_list.append(y)
                 if x_s is not None:
-                    x_s = (x_s - self.scaler["stat_mean"]) / self.scaler["stat_std"]
+                    x_s_list.append(x_s)
 
-            x_d, x_s, y = reshape_data(
-                x_d=x_d, x_s=x_s, y=y, seq_length=self.seq_length
-            )
-
-            x_d_list.append(x_d)
-            y_list.append(y)
-            if x_s is not None:
-                x_s_list.append(x_s)
+            except IndexError as E:
+                print(f"No data in date-range for basin: {}")
+                pass
 
         x_d = np.concatenate(x_d_list, axis=0)
         y = np.concatenate(y_list, axis=0)
