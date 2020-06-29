@@ -150,7 +150,9 @@ class BaseDatasetBasin(Dataset):
                     x_s_list.append(x_s)
 
             except IndexError as E:
-                print(f"No data in date-range for basin: {self.basin}")
+                raise NoTrainDataError(
+                    f"Basin {self.basin} contains no valid discharge observations in selected period."
+                )
                 pass
 
         x_d = np.concatenate(x_d_list, axis=0)
