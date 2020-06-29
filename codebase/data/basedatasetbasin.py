@@ -150,7 +150,7 @@ class BaseDatasetBasin(Dataset):
                     x_s_list.append(x_s)
 
             except IndexError as E:
-                print(f"No data in date-range for basin: {}")
+                print(f"No data in date-range for basin: {self.basin}")
                 pass
 
         x_d = np.concatenate(x_d_list, axis=0)
