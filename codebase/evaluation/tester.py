@@ -27,6 +27,7 @@ from codebase.evaluation import plots
 from codebase.evaluation.metrics import calculate_metrics
 from codebase.modelzoo import get_model
 from codebase.training.logger import Logger
+from codebase.errors import NoTrainDataError
 
 
 class Tester(object):
