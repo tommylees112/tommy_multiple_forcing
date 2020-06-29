@@ -101,7 +101,7 @@ learning_rate:
 batch_size: 256
 
 # Number of training epochs
-epochs: 1 #  30
+epochs: 30 #  30
 
 # If True, clips norm of gradients
 clip_gradient_norm: True
@@ -177,9 +177,24 @@ target_variable:
 
 # Which CAMELS attributes to use. Leave empty if none should be used
 camels_attributes:
-- pet_mean
+- area
+- dpsbar
+- elev_mean
+- sand_perc
+- silt_perc
+- clay_perc
+- porosity_hypres
+- conductivity_hypres
+- soil_depth_pelletier
+- slope_fdc
+- baseflow_index
 - aridity
-- p_seasonality
+- frac_snow
+- dwood_perc
+- ewood_perc
+- crop_perc
+- urban_perc
+- reservoir_cap
 
 # TOMMY: --> Not implemented
 # Path to pickle file(s) containing additional data. Each pickle file must contain a dictionary
