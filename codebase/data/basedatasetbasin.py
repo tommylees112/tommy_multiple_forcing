@@ -142,7 +142,7 @@ class BaseDatasetBasin(Dataset):
             x_d, x_s, y = reshape_data(
                 x_d=x_d, x_s=x_s, y=y, seq_length=self.seq_length
             )
-            assert False
+
             x_d_list.append(x_d)
             y_list.append(y)
             if x_s is not None:
@@ -152,6 +152,16 @@ class BaseDatasetBasin(Dataset):
         y = np.concatenate(y_list, axis=0)
         if x_s_list:
             x_s = np.concatenate(x_s_list, axis=0)
+
+        # DROP NANS
+        assert False
+        x_d_nans = np.any(np.any(np.isnan(x_d), axis=1), axis=1)
+        y_nans = np.any(np.any(np.isnan(y), axis=1), axis=1)
+
+        any_nans = np.logical_or(x_d_nans, y_nans)
+
+        if x_s is not None:
+            np.any(np.isnan(x_s), axis=1)
 
         if self.is_train:
 
