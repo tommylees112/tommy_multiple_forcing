@@ -101,6 +101,15 @@ class CamelsGBCSV(BaseDatasetBasin):
 
         df = df.drop(drop_cols, axis=1)
 
+        # find the basins missing static data
+        basins_missing_attributes = [i for i in df.loc[df.isnull().sum(axis=1) > 0].index]
+
+        # TODO: TOMMY WAS HERE
+        if self.basin in basins_missing_attributes:
+            raise NoTrainDataError(
+                f"Basin {self.basin} has missing data in the Static Attributes!"
+            )
+
         # fix the order of the columns to be alphabetically
         df = df.sort_index(axis=1)
 
