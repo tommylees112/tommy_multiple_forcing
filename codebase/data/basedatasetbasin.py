@@ -104,6 +104,7 @@ class BaseDatasetBasin(Dataset):
     def _preprocess_data(self) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
 
         df = self._load_data()
+        ## REMOVE nan timesteps from the data
         df = df.dropna()
 
         # Merge CAMELS data with additionally passed features in list of dataframes
@@ -143,6 +144,7 @@ class BaseDatasetBasin(Dataset):
                 x_d, x_s, y = reshape_data(
                     x_d=x_d, x_s=x_s, y=y, seq_length=self.seq_length
                 )
+                assert False
 
                 x_d_list.append(x_d)
                 y_list.append(y)
