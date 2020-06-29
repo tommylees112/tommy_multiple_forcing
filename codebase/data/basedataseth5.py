@@ -54,7 +54,6 @@ class BaseDatasetH5(Dataset):
 
         # has to be implemented in child class, returns None in case of no attributes
         self.df_attributes = self._load_attributes()
-        assert False
 
         # determine number of samples once
         if self.cfg["cache_data"]:
