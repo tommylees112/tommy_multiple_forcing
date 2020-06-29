@@ -141,8 +141,6 @@ def create_h5_file(
                 # the non-CAMELS stat features are stored at the end of the combined features
                 stat_input_data[-num_samples:, :] = x_stat[:, -n_stat:]
 
-            assert False
-
             # additionally store std of discharge of this basin for each sample
             q_stds.resize((total_samples, 1))
             q_std_array = np.array(
