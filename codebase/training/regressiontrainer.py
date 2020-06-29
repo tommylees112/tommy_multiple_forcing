@@ -48,6 +48,7 @@ class RegressionTrainer(BaseTrainer):
             y_hat_sub = y_hat[:, -self.cfg["predict_last_n"] :, :]
 
             loss = self.loss_obj(y_hat_sub, y_sub, q_stds=q_stds)
+            assert not np.isnan(loss.item()), "Found nan in data ..."
 
             # delete old gradients
             self.optimizer.zero_grad()
