@@ -144,7 +144,6 @@ class BaseDatasetBasin(Dataset):
                 x_d, x_s, y = reshape_data(
                     x_d=x_d, x_s=x_s, y=y, seq_length=self.seq_length
                 )
-                assert False
 
                 x_d_list.append(x_d)
                 y_list.append(y)
