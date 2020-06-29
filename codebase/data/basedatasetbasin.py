@@ -100,7 +100,7 @@ class BaseDatasetBasin(Dataset):
     def _load_data(self):
         raise NotImplementedError
 
-    def _preprocess_data(self):
+    def _preprocess_data(self) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
 
         df = self._load_data()
 
@@ -141,6 +141,7 @@ class BaseDatasetBasin(Dataset):
             x_d, x_s, y = reshape_data(
                 x_d=x_d, x_s=x_s, y=y, seq_length=self.seq_length
             )
+            assert False
             x_d_list.append(x_d)
             y_list.append(y)
             if x_s is not None:
