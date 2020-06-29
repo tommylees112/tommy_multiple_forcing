@@ -17,6 +17,7 @@ from torch.utils.data import Dataset
 
 from codebase.errors import NoTrainDataError
 from codebase.data.utils import reshape_data
+from typing import Tuple
 
 
 class BaseDatasetBasin(Dataset):
