@@ -248,7 +248,6 @@ class Tester(object):
                             results[basin][k] = v
 
             except ValueError as e:
-                print(f"** Basin {basin} Has the wrong number of timesteps. Exp: {len(date_range)} Got: {len(y_hat)}**")
                 basins_without_train_data.append(basin)
 
         if (self.mode == "validation") and (self.cfg.get("log_n_figures", 0) > 0):
