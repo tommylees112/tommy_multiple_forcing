@@ -14,6 +14,7 @@ import h5py
 import numpy as np
 import torch
 from torch.utils.data import Dataset
+from typing import Tuple
 
 
 class BaseDatasetH5(Dataset):
@@ -65,7 +66,7 @@ class BaseDatasetH5(Dataset):
     def __len__(self):
         return self.num_samples
 
-    def __getitem__(self, idx: int):
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, ...]:
         if self.cfg["cache_data"]:
             x_d, x_s, y, basin, q_std = self._get_cached_sample(idx=idx)
         else:

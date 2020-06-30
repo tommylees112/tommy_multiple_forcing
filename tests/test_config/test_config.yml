@@ -1,16 +1,16 @@
 # --- Experiment configurations --------------------------------------------------------------------
 
 # experiment name, used as folder name
-experiment_name: tommy_camels_gb
+experiment_name: test
 
 # place to store run directory (if empty runs are stored in code_dir/runs/)
 run_dir:
 
 # files to specify training, validation and test basins (relative to code root or absolute path)
 # camels_gb_basin_list.txt  gb_basins_sub.txt  test_basins.txt
-train_basin_file: ./data/camels_gb_basin_list.txt
-validation_basin_file: ./data/camels_gb_basin_list.txt
-test_basin_file: ./data/camels_gb_basin_list.txt
+train_basin_file: ./tests/test_data/test_basin_list.txt
+validation_basin_file: ./tests/test_data/test_basin_list.txt
+test_basin_file: ./tests/test_data/test_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
 train_start_date: '01/01/2000'
@@ -20,26 +20,19 @@ validation_end_date: '31/12/1989'
 test_start_date: '01/01/1989'
 test_end_date: '31/12/1999'
 
-# train_end_date: '30/09/1999'
-# train_start_date: '01/10/1979'
-# validation_end_date: '30/09/2006'
-# validation_start_date: '01/10/1999'
-# test_end_date: '30/09/2018'
-# test_start_date: '01/10/2006'
-
 # fixed seed, leave empty to use a random seed
 seed:
 
 # which GPU (id) to use [in format of cuda:0, cuda:1 etc, or cpu or None]
-device: cuda:0
+device:
 
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 5
+validate_every: 1
 
 # specify how many random basins to use for validation
-validate_n_random_basins: 4
+validate_n_random_basins: 2
 
 # specify which metrics to calculate during validation (see codebase.evaluation.metrics)
 metrics:
@@ -101,7 +94,7 @@ learning_rate:
 batch_size: 256
 
 # Number of training epochs
-epochs: 1
+epochs: 2 #  30
 
 # If True, clips norm of gradients
 clip_gradient_norm: True
@@ -112,10 +105,10 @@ clip_gradient_value: 1
 predict_last_n: 1
 
 # Length of the input sequence
-seq_length: 365
+seq_length: 10
 
 # Number of parallel workers used in the data pipeline (for pytorch dataloader)
-num_workers: 16
+num_workers: 1
 
 # Log the training loss every n steps
 log_interval: 5
@@ -142,10 +135,7 @@ save_validation_results: False
 dataset: camels_gb
 
 # Path to CAMELS data set
-data_dir: /soge-home/projects/crop_yield/ml_drought/data/raw/CAMELS_GB_DATASET
-# /home/jovyan/ml_drought/data/raw/CAMELS_GB_DATASET
-# /Volumes/Lees_Extend/data/CAMELS/CAMELS_TEST
-# /Volumes/Lees_Extend/data/CAMELS/ CAMELS_GB_DATASET
+data_dir: ./tests/test_data/CAMELS_GB_DATASET
 
 # Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
 # new hdf5 file
@@ -155,7 +145,7 @@ scaler_file:
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
-cache_validation_data: True
+cache_validation_data: False
 
 # Forcing product [daymet, maurer, maurer_extended, nldas, nldas_extended]
 # can be either a list of forcings or a single forcing product
@@ -177,24 +167,9 @@ target_variable:
 
 # Which CAMELS attributes to use. Leave empty if none should be used
 camels_attributes:
-- area
-- dpsbar
-- elev_mean
-- sand_perc
-- silt_perc
-- clay_perc
-- porosity_hypres
-- conductivity_hypres
-- soil_depth_pelletier
-- slope_fdc
-- baseflow_index
+- pet_mean
 - aridity
-- frac_snow
-- dwood_perc
-- ewood_perc
-- crop_perc
-- urban_perc
-- reservoir_cap
+- p_seasonality
 
 # TOMMY: --> Not implemented
 # Path to pickle file(s) containing additional data. Each pickle file must contain a dictionary

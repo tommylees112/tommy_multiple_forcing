@@ -10,10 +10,10 @@ see <https://opensource.org/licenses/Apache-2.0>
 """
 from codebase.data.camelstxt import CamelsTXT, CamelsGBCSV
 from codebase.data.camelsh5 import CamelsH5, CamelsGBH5
-from typing import Tuple
+from typing import Union
 
 
-def get_basin_dataset(basin: str, cfg: dict, mode: str, **kwargs):
+def get_basin_dataset(basin: str, cfg: dict, mode: str, **kwargs) -> Union[CamelsH5, CamelsGBH5]:
     if cfg["dataset"] == "camels_us":
         Dataset = CamelsTXT
     elif cfg["dataset"] == "camels_gb":
@@ -34,7 +34,7 @@ def get_basin_dataset(basin: str, cfg: dict, mode: str, **kwargs):
     return ds
 
 
-def get_h5_dataset(cfg: dict) -> Tuple[CamelsH5, CamelsGBH5]:
+def get_h5_dataset(cfg: dict) -> Union[CamelsH5, CamelsGBH5]:
     if cfg["dataset"] == "camels_us":
         Dataset = CamelsH5
     elif cfg["dataset"] == "camels_gb":

@@ -6,3 +6,4 @@
 .idea/*
 runs/*
 .ipynb_checkpoints/*
+.DS_store
