@@ -98,6 +98,9 @@ if __name__ == "__main__":
 
     # save to netcdf
     # train_ds.to_netcdf('train_ds.nc')
-    # valid_ds.to_netcdf('valid_ds.nc')
     # valid_ds.to_netcdf()
-    assert False
+    valid_ds.to_netcdf(run_dir / 'valid_ds.nc')
+    valid_ds.to_dataframe().to_csv(run_dir / f'results_{run_dir.name}.csv')
+
+    print(f"Results written to {run_dir}")
+
