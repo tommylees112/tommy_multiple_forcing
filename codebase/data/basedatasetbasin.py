@@ -150,7 +150,7 @@ class BaseDatasetBasin(Dataset):
                 if x_s is not None:
                     x_s_list.append(x_s)
 
-            except IndexError as E:
+            except (IndexError as E) or (ValueError as E2):
                 raise NoTrainDataError(
                     f"Basin {self.basin} contains no valid discharge observations in selected period."
                 )
