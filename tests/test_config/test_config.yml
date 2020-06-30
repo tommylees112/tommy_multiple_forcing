@@ -14,11 +14,11 @@ test_basin_file: ./tests/test_data/test_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
 train_start_date: '01/01/2000'
-train_end_date: '31/12/2009'
+train_end_date: '31/12/2019'
 validation_start_date: '01/01/1980'
 validation_end_date: '31/12/1989'
-test_start_date: '01/01/1989'
-test_end_date: '31/12/1999'
+test_start_date: '01/01/1970'
+test_end_date: '31/12/1979'
 
 # fixed seed, leave empty to use a random seed
 seed:
@@ -51,7 +51,6 @@ model: cudalstm
 head: regression
 
 # ----> Embedding network settings <----
-# DELETE FOR CUDALSTM
 
 # define number of neurons per layer in the FC network used as embedding/shortcut network
 embedding_hiddens:
@@ -82,7 +81,7 @@ output_dropout: 0.4
 optimizer: Adam
 
 # specify loss [MSE, NSE]
-loss: MSE
+loss: NSE
 
 # specify learning rates to use starting at specific epochs (0 is the initial learning rate)
 learning_rate:

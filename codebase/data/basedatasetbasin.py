@@ -105,7 +105,7 @@ class BaseDatasetBasin(Dataset):
 
         df = self._load_data()
         ## REMOVE nan timesteps from the data
-        df = df.dropna()
+        # df = df.dropna()
 
         # Merge CAMELS data with additionally passed features in list of dataframes
         if self.additional_features:
@@ -116,7 +116,7 @@ class BaseDatasetBasin(Dataset):
         for start_date, end_date in zip(self.start_dates, self.end_dates):
             # we use (seq_len) time steps before start for warmup
             warmup_start_date = start_date - pd.DateOffset(days=self.seq_length - 1)
-            df_sub = df[warmup_start_date:end_date]
+            df_sub = df[warmup_start_date: end_date]
             try:
                 # store first and last date of the selected period (including warm_start), needed for validation/testing
                 self.period_start = df_sub.index[0]
@@ -185,7 +185,7 @@ class BaseDatasetBasin(Dataset):
             self.scaler["target_std"] = np.nanstd(y_cat, axis=0)
 
             # check if qobs in target variable, if yes store std for NSELoss separately
-            qobs_var = [v for v in self.target_variable if "qobs" in v.lower()]
+            qobs_var = [v for v in self.target_variable]
             if qobs_var:
                 qobs_pos = self.target_variable.index(qobs_var[0])
                 self.q_std = self.scaler["target_std"][qobs_pos]

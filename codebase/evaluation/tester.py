@@ -230,7 +230,7 @@ class Tester(object):
 
                 if metrics:
                     qobs_variable_name = [
-                        col for col in self.cfg["target_variable"] if "qobs" in col.lower()
+                        col for col in self.cfg["target_variable"]
                     ]
                     if qobs_variable_name:
                         qobs_variable_name = qobs_variable_name[0]
