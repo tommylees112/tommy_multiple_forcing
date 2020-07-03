@@ -15,26 +15,19 @@ validation_basin_file: ./data/camels_gb_basin_list.txt
 test_basin_file: ./data/camels_gb_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
-train_start_date: '01/01/2000'
+train_start_date: '01/01/1990'
 train_end_date: '31/12/2009'
 validation_start_date: '01/01/1980'
 validation_end_date: '31/12/1985'
-test_start_date: '01/01/1989'
-test_end_date: '31/12/1999'
+test_start_date: '01/01/2010'
+test_end_date: '31/12/2015'
 
-# train_start_date: '01/10/1999'
-# train_end_date: '30/09/2008'
-# validation_start_date: '01/10/1980'
-# validation_end_date: '30/09/1989'
-# test_start_date: '01/10/1989'
-# test_end_date: '30/09/1999'
-
-# train_end_date: '30/09/1999'
-# train_start_date: '01/10/1979'
-# validation_end_date: '30/09/2006'
-# validation_start_date: '01/10/1999'
-# test_end_date: '30/09/2018'
-# test_start_date: '01/10/2006'
+# train_start_date: '01/01/2000'
+# train_end_date: '31/12/2009'
+# validation_start_date: '01/01/1980'
+# validation_end_date: '31/12/1985'
+# test_start_date: '01/01/1989'
+# test_end_date: '31/12/1999'
 
 # fixed seed, leave empty to use a random seed
 seed:
