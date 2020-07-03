@@ -1,15 +1,23 @@
+"""
+This file is part of the accompanying code to our manuscript:
+
+Kratzert, F., Klotz, D., Hochreiter, S., and Nearing, G. S.: A note on leveraging synergy in multiple meteorological
+datasets with deep learning for rainfall-runoff modeling, Hydrol. Earth Syst. Sci. Discuss.,
+https://doi.org/10.5194/hess-2020-221, in review, 2020.
+
+You should have received a copy of the Apache-2.0 license along with the code. If not,
+see <https://opensource.org/licenses/Apache-2.0>
+"""
 from typing import Tuple, Dict
 
 import torch
 import torch.nn as nn
 
-from codebase.modelzoo.basemodel import BaseModel
-# from codebase.modelzoo.fc import FC
 from codebase.modelzoo.head import get_head
+from codebase.modelzoo.basemodel import BaseModel
 
 
 class EALSTM(BaseModel):
-
     def __init__(self, cfg: Dict):
         super(EALSTM, self).__init__(cfg=cfg)
 
@@ -21,15 +29,15 @@ class EALSTM(BaseModel):
         self.hidden_size = cfg["hidden_size"]
         self.initial_forget_bias = cfg["initial_forget_bias"]
 
-        # check for input gate embedding
-        # if cfg["embedding_hiddens"]:
-        #     self.input_net = FC(cfg=cfg)
-        # else:
         self.input_net = nn.Linear(self.input_size_stat, self.hidden_size)
 
         # create tensors of learnable parameters
-        self.weight_ih = nn.Parameter(torch.FloatTensor(self.input_size_dyn, 3 * self.hidden_size))
-        self.weight_hh = nn.Parameter(torch.FloatTensor(self.hidden_size, 3 * self.hidden_size))
+        self.weight_ih = nn.Parameter(
+            torch.FloatTensor(self.input_size_dyn, 3 * self.hidden_size)
+        )
+        self.weight_hh = nn.Parameter(
+            torch.FloatTensor(self.hidden_size, 3 * self.hidden_size)
+        )
         self.bias = nn.Parameter(torch.FloatTensor(3 * self.hidden_size))
 
         self.dropout = nn.Dropout(p=cfg["output_dropout"])
@@ -49,7 +57,7 @@ class EALSTM(BaseModel):
         nn.init.constant_(self.bias.data, val=0)
 
         if self.initial_forget_bias != 0:
-            self.bias.data[:self.hidden_size] = self.initial_forget_bias
+            self.bias.data[: self.hidden_size] = self.initial_forget_bias
 
     def forward(self, x_d: torch.Tensor, x_s: torch.Tensor, x_one_hot: torch.Tensor):
 
@@ -72,7 +80,7 @@ class EALSTM(BaseModel):
         h_n, c_n = [], []
 
         # expand bias vectors to batch size
-        bias_batch = (self.bias.unsqueeze(0).expand(batch_size, *self.bias.size()))
+        bias_batch = self.bias.unsqueeze(0).expand(batch_size, *self.bias.size())
 
         # calculate input gate only once because inputs are static
         i = torch.sigmoid(self.input_net(x_s))
@@ -82,8 +90,9 @@ class EALSTM(BaseModel):
             h_0, c_0 = h_x
 
             # calculate gates
-            gates = (torch.addmm(bias_batch, h_0, self.weight_hh) +
-                     torch.mm(x_d[t], self.weight_ih))
+            gates = torch.addmm(bias_batch, h_0, self.weight_hh) + torch.mm(
+                x_d[t], self.weight_ih
+            )
             f, o, g = gates.chunk(3, 1)
 
             c_1 = torch.sigmoid(f) * c_0 + i * torch.tanh(g)
@@ -101,6 +110,6 @@ class EALSTM(BaseModel):
         h_n = h_n.transpose(0, 1)
         c_n = c_n.transpose(0, 1)
 
-        y_hat = self.head(self.dropout(h_n.transpose(0, 1)))
+        y_hat = self.head(self.dropout(h_n))  # h_n.transpose(0, 1)
 
         return y_hat, h_n, c_n

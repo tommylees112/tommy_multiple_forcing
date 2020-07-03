@@ -13,7 +13,9 @@ from codebase.data.camelsh5 import CamelsH5, CamelsGBH5
 from typing import Union
 
 
-def get_basin_dataset(basin: str, cfg: dict, mode: str, **kwargs) -> Union[CamelsH5, CamelsGBH5]:
+def get_basin_dataset(
+    basin: str, cfg: dict, mode: str, **kwargs
+) -> Union[CamelsH5, CamelsGBH5]:
     if cfg["dataset"] == "camels_us":
         Dataset = CamelsTXT
     elif cfg["dataset"] == "camels_gb":

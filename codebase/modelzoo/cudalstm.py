@@ -37,6 +37,7 @@ class CudaLSTM(BaseModel):
 
         self.head = get_head(cfg=cfg, n_in=cfg["hidden_size"], n_out=self.output_size)
 
+        # initialize parameters
         self.reset_parameters()
 
     def reset_parameters(self):

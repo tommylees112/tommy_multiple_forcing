@@ -229,9 +229,7 @@ class Tester(object):
                 results[basin]["xr"] = xr
 
                 if metrics:
-                    qobs_variable_name = [
-                        col for col in self.cfg["target_variable"]
-                    ]
+                    qobs_variable_name = [col for col in self.cfg["target_variable"]]
                     if qobs_variable_name:
                         qobs_variable_name = qobs_variable_name[0]
 

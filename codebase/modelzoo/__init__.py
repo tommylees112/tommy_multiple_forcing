@@ -11,12 +11,15 @@ see <https://opensource.org/licenses/Apache-2.0>
 import torch.nn as nn
 
 from codebase.modelzoo.cudalstm import CudaLSTM
+from codebase.modelzoo.ealstm import EALSTM
 
 
 def get_model(cfg: dict) -> nn.Module:
 
     if cfg["model"] == "cudalstm":
         model = CudaLSTM(cfg=cfg)
+    elif cfg["model"] == "ealstm":
+        model = EALSTM(cfg=cfg)
     else:
         raise NotImplementedError(cfg["model"])
 

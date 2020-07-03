@@ -12,6 +12,7 @@ from codebase.data.basedataseth5 import BaseDatasetH5
 from codebase.data.utils import load_camels_attributes
 import pandas as pd
 
+
 class CamelsGBH5(BaseDatasetH5):
     def __init__(self, cfg: dict):
         super(CamelsGBH5, self).__init__(cfg)

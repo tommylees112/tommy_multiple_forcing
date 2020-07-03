@@ -116,7 +116,7 @@ class BaseDatasetBasin(Dataset):
         for start_date, end_date in zip(self.start_dates, self.end_dates):
             # we use (seq_len) time steps before start for warmup
             warmup_start_date = start_date - pd.DateOffset(days=self.seq_length - 1)
-            df_sub = df[warmup_start_date: end_date]
+            df_sub = df[warmup_start_date:end_date]
             try:
                 # store first and last date of the selected period (including warm_start), needed for validation/testing
                 self.period_start = df_sub.index[0]
@@ -131,7 +131,9 @@ class BaseDatasetBasin(Dataset):
                     )
 
                 if self.static_inputs:
-                    x_s = self._get_feature_array(df=df_sub, features=self.static_inputs)
+                    x_s = self._get_feature_array(
+                        df=df_sub, features=self.static_inputs
+                    )
                 else:
                     x_s = None
 

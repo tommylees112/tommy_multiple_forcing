@@ -21,25 +21,31 @@ from codebase.errors import NoTrainDataError
 
 
 class CamelsGBCSV(BaseDatasetBasin):
-    def __init__(self,
-                 basin: str,
-                 cfg: dict,
-                 mode: str,
-                 additional_features: List[pd.DataFrame] = [],
-                 id_to_int: dict = {},
-                 scaler: dict = {}):
+    def __init__(
+        self,
+        basin: str,
+        cfg: dict,
+        mode: str,
+        additional_features: List[pd.DataFrame] = [],
+        id_to_int: dict = {},
+        scaler: dict = {},
+    ):
 
-        super(CamelsGBCSV, self).__init__(basin=basin,
-                                        cfg=cfg,
-                                        mode=mode,
-                                        additional_features=additional_features,
-                                        id_to_int=id_to_int,
-                                        scaler=scaler)
+        super(CamelsGBCSV, self).__init__(
+            basin=basin,
+            cfg=cfg,
+            mode=mode,
+            additional_features=additional_features,
+            id_to_int=id_to_int,
+            scaler=scaler,
+        )
 
-        if (isinstance(cfg['dynamic_inputs'], list)) and (len(cfg['dynamic_inputs']) == 1):
-            self.forcings = cfg['dynamic_inputs'][0]
+        if (isinstance(cfg["dynamic_inputs"], list)) and (
+            len(cfg["dynamic_inputs"]) == 1
+        ):
+            self.forcings = cfg["dynamic_inputs"][0]
         else:
-            self.forcings = cfg['dynamic_inputs']
+            self.forcings = cfg["dynamic_inputs"]
 
         self.camels_attributes = cfg.get("camels_attributes", [])
 
@@ -49,7 +55,6 @@ class CamelsGBCSV(BaseDatasetBasin):
         self.x_d, self.x_s, self.y = self._preprocess_data()
 
         self.num_samples = self.x_d.shape[0]
-
 
     def _get_one_basin_csv_file(self) -> Path:
         # get gauge_id
@@ -66,9 +71,9 @@ class CamelsGBCSV(BaseDatasetBasin):
             sum(bool_list) > 0
         ), f"Only expect to find one gauge id with id : {self.basin}"
 
-        csv_file = np.array([d for d in (self.data_dir / "Catchment_Timeseries").glob("*.csv")])[bool_list][
-            0
-        ]
+        csv_file = np.array(
+            [d for d in (self.data_dir / "Catchment_Timeseries").glob("*.csv")]
+        )[bool_list][0]
 
         return csv_file
 
@@ -102,7 +107,9 @@ class CamelsGBCSV(BaseDatasetBasin):
         df = df.drop(drop_cols, axis=1)
 
         # find the basins missing static data
-        basins_missing_attributes = [i for i in df.loc[df.isnull().sum(axis=1) > 0].index]
+        basins_missing_attributes = [
+            i for i in df.loc[df.isnull().sum(axis=1) > 0].index
+        ]
 
         # TODO: TOMMY WAS HERE
         if self.basin in basins_missing_attributes:
@@ -115,7 +122,7 @@ class CamelsGBCSV(BaseDatasetBasin):
 
         if not self.is_train:
             # normalize data
-            df = (df - self.scaler['camels_attr_mean']) / self.scaler["camels_attr_std"]
+            df = (df - self.scaler["camels_attr_mean"]) / self.scaler["camels_attr_std"]
         else:
             # we don't have to normalize here, since during training the features are loaded again
             # in the CamelsH5 class and are normalized there based on all training basins
@@ -127,26 +134,29 @@ class CamelsGBCSV(BaseDatasetBasin):
 
 
 class CamelsTXT(BaseDatasetBasin):
+    def __init__(
+        self,
+        basin: str,
+        cfg: dict,
+        mode: str,
+        additional_features: List[pd.DataFrame] = [],
+        id_to_int: dict = {},
+        scaler: dict = {},
+    ):
 
-    def __init__(self,
-                 basin: str,
-                 cfg: dict,
-                 mode: str,
-                 additional_features: List[pd.DataFrame] = [],
-                 id_to_int: dict = {},
-                 scaler: dict = {}):
+        super(CamelsTXT, self).__init__(
+            basin=basin,
+            cfg=cfg,
+            mode=mode,
+            additional_features=additional_features,
+            id_to_int=id_to_int,
+            scaler=scaler,
+        )
 
-        super(CamelsTXT, self).__init__(basin=basin,
-                                        cfg=cfg,
-                                        mode=mode,
-                                        additional_features=additional_features,
-                                        id_to_int=id_to_int,
-                                        scaler=scaler)
-
-        if (isinstance(cfg['forcings'], list)) and (len(cfg['forcings']) == 1):
-            self.forcings = cfg['forcings'][0]
+        if (isinstance(cfg["forcings"], list)) and (len(cfg["forcings"]) == 1):
+            self.forcings = cfg["forcings"][0]
         else:
-            self.forcings = cfg['forcings']
+            self.forcings = cfg["forcings"]
 
         self.camels_attributes = cfg.get("camels_attributes", [])
 
@@ -172,7 +182,7 @@ class CamelsTXT(BaseDatasetBasin):
             df, area = load_forcings(self.data_dir, self.basin, self.forcings)
 
         # add discharge
-        df['QObs(mm/d)'] = load_discharge(self.data_dir, self.basin, area)
+        df["QObs(mm/d)"] = load_discharge(self.data_dir, self.basin, area)
 
         # replace invalid discharge values by NaNs
         qobs_cols = [col for col in df.columns if "qobs" in col.lower()]
@@ -193,7 +203,7 @@ class CamelsTXT(BaseDatasetBasin):
 
         if not self.is_train:
             # normalize data
-            df = (df - self.scaler['camels_attr_mean']) / self.scaler["camels_attr_std"]
+            df = (df - self.scaler["camels_attr_mean"]) / self.scaler["camels_attr_std"]
         else:
             # we don't have to normalize here, since during training the features are loaded again
             # in the CamelsH5 class and are normalized there based on all training basins
