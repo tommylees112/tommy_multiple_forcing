@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 
 from codebase.modelzoo.basemodel import BaseModel
-from codebase.modelzoo.fc import FC
+# from codebase.modelzoo.fc import FC
 from codebase.modelzoo.head import get_head
 
 
@@ -22,10 +22,10 @@ class EALSTM(BaseModel):
         self.initial_forget_bias = cfg["initial_forget_bias"]
 
         # check for input gate embedding
-        if cfg["embedding_hiddens"]:
-            self.input_net = FC(cfg=cfg)
-        else:
-            self.input_net = nn.Linear(self.input_size_stat, self.hidden_size)
+        # if cfg["embedding_hiddens"]:
+        #     self.input_net = FC(cfg=cfg)
+        # else:
+        self.input_net = nn.Linear(self.input_size_stat, self.hidden_size)
 
         # create tensors of learnable parameters
         self.weight_ih = nn.Parameter(torch.FloatTensor(self.input_size_dyn, 3 * self.hidden_size))
