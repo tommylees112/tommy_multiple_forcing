@@ -110,6 +110,7 @@ class EALSTM(BaseModel):
         h_n = h_n.transpose(0, 1)
         c_n = c_n.transpose(0, 1)
 
-        y_hat = self.head(self.dropout(h_n))  # h_n.transpose(0, 1)
+        # not batch_first -> h_n.transpose(0, 1)
+        y_hat = self.head(self.dropout(h_n))
 
         return y_hat, h_n, c_n
