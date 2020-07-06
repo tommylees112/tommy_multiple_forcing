@@ -196,12 +196,13 @@ class BaseDatasetBasin(Dataset):
         x_d = torch.from_numpy(x_d.astype(np.float32))
         if x_s is not None:
             x_s = torch.from_numpy(x_s.astype(np.float32))
-        y = torch.from_numpy(y.astype(np.float32))
 
-        if (np.isnan(y).sum() == y.size) or (np.isnan(y.flatten()).mean() == 1.0):
+        if (np.isnan(y.flatten()).mean() == 1.0):
             raise NoTrainDataError(
                 "Basin contains no valid discharge observations in selected period."
             )
+
+        y = torch.from_numpy(y.astype(np.float32))
 
         return x_d, x_s, y
 
