@@ -198,6 +198,11 @@ class BaseDatasetBasin(Dataset):
             x_s = torch.from_numpy(x_s.astype(np.float32))
         y = torch.from_numpy(y.astype(np.float32))
 
+        if (np.isnan(y).sum() == y.size) or (np.isnan(y.flatten()).mean() == 1.0):
+            raise NoTrainDataError(
+                "Basin contains no valid discharge observations in selected period."
+            )
+
         return x_d, x_s, y
 
     def get_scaler(self):

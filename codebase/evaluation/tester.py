@@ -247,8 +247,10 @@ class Tester(object):
 
             except ValueError as E:
                 error = str(E)
-                assert False
-                basins_without_train_data.append(basin)
+                if  "x and y must have length at least " in error:
+                    basins_without_train_data.append(basin)
+                else:
+                    raise E
 
         if (self.mode == "validation") and (self.cfg.get("log_n_figures", 0) > 0):
             self._create_and_log_figures(results, logger, epoch)
