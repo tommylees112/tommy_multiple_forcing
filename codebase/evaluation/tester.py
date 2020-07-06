@@ -216,7 +216,7 @@ class Tester(object):
             try:
                 # determine the end of the first sequence (first target in sequence-to-one)
                 date_range = pd.date_range(
-                    start=start_date, end=self.cfg[f"{self.mode}_end_date"]
+                    start=start_date, end=ds.period_end
                 )
 
                 xr = xarray.Dataset(
@@ -245,8 +245,12 @@ class Tester(object):
                         for k, v in values.items():
                             results[basin][k] = v
 
-            except ValueError as e:
-                basins_without_train_data.append(basin)
+            except ValueError as E:
+                error = str(E)
+                if qobs.isnull().mean().values == 1.0:
+                    basins_without_train_data.append(basin)
+                else:
+                    raise E
 
         if (self.mode == "validation") and (self.cfg.get("log_n_figures", 0) > 0):
             self._create_and_log_figures(results, logger, epoch)
