@@ -213,37 +213,37 @@ class Tester(object):
             # TODO: why are there less dates than the true number of dates?
             # There must be missing data for those timesteps
 
-            try:
-                # determine the end of the first sequence (first target in sequence-to-one)
-                date_range = pd.date_range(
-                    start=start_date, end=self.cfg[f"{self.mode}_end_date"]
-                )
+            # try:
+            # determine the end of the first sequence (first target in sequence-to-one)
+            date_range = pd.date_range(
+                start=start_date, end=self.cfg[f"{self.mode}_end_date"]
+            )
 
-                xr = xarray.Dataset(
-                    data_vars=data,
-                    coords={
-                        "date": date_range,
-                        "time_step": np.arange(-self.cfg["predict_last_n"] + 1, 1),
-                    },
-                )
-                results[basin]["xr"] = xr
+            xr = xarray.Dataset(
+                data_vars=data,
+                coords={
+                    "date": date_range,
+                    "time_step": np.arange(-self.cfg["predict_last_n"] + 1, 1),
+                },
+            )
+            results[basin]["xr"] = xr
 
-                if metrics:
-                    qobs_variable_name = [col for col in self.cfg["target_variable"]]
-                    if qobs_variable_name:
-                        qobs_variable_name = qobs_variable_name[0]
+            if metrics:
+                qobs_variable_name = [col for col in self.cfg["target_variable"]]
+                if qobs_variable_name:
+                    qobs_variable_name = qobs_variable_name[0]
 
-                        # check if not empty (in case no streamflow data exist in validation period
-                        qobs = xr[f"{qobs_variable_name}_obs"].sel(dict(time_step=0))
-                        qsim = xr[f"{qobs_variable_name}_sim"].sel(dict(time_step=0))
-                        if (len(qsim.shape) > 1) and (qsim.shape[-1] > 0):
-                            # print("Using the mean discharge for metric calculation")
-                            qsim = qsim.mean(axis=-1)
-                        values = calculate_metrics(qobs, qsim, metrics=metrics)
-                        if logger is not None:
-                            logger.log_step(**values)
-                        for k, v in values.items():
-                            results[basin][k] = v
+                    # check if not empty (in case no streamflow data exist in validation period
+                    qobs = xr[f"{qobs_variable_name}_obs"].sel(dict(time_step=0))
+                    qsim = xr[f"{qobs_variable_name}_sim"].sel(dict(time_step=0))
+                    if (len(qsim.shape) > 1) and (qsim.shape[-1] > 0):
+                        # print("Using the mean discharge for metric calculation")
+                        qsim = qsim.mean(axis=-1)
+                    values = calculate_metrics(qobs, qsim, metrics=metrics)
+                    if logger is not None:
+                        logger.log_step(**values)
+                    for k, v in values.items():
+                        results[basin][k] = v
 
             # except ValueError as e:
             #     assert False
