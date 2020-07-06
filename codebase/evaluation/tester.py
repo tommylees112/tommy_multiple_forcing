@@ -247,8 +247,7 @@ class Tester(object):
 
             except ValueError as E:
                 error = str(E)
-                if  "x and y must have length at least " in error:
-                    assert False
+                if qobs.isnull().mean().values == 1.0:
                     basins_without_train_data.append(basin)
                 else:
                     raise E
