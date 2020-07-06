@@ -248,6 +248,7 @@ class Tester(object):
             except ValueError as E:
                 error = str(E)
                 if  "x and y must have length at least " in error:
+                    assert False
                     basins_without_train_data.append(basin)
                 else:
                     raise E
