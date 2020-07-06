@@ -45,7 +45,7 @@ metrics:
 
 # base model type [cudalstm, ealstm]
 # (has to match the if statement in modelzoo/__init__.py)
-model: ealstm
+model: cudalstm
 
 # prediction head [regression]. Define the head specific parameters below
 head: regression
