@@ -246,6 +246,7 @@ class Tester(object):
                             results[basin][k] = v
 
             except ValueError as e:
+                assert False
                 basins_without_train_data.append(basin)
 
         if (self.mode == "validation") and (self.cfg.get("log_n_figures", 0) > 0):
