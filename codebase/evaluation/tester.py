@@ -245,7 +245,8 @@ class Tester(object):
                         for k, v in values.items():
                             results[basin][k] = v
 
-            except ValueError as e:
+            except ValueError as E:
+                error = str(E)
                 assert False
                 basins_without_train_data.append(basin)
 
