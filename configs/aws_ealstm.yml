@@ -1,7 +1,7 @@
 # --- Experiment configurations --------------------------------------------------------------------
 
 # experiment name, used as folder name
-experiment_name: lstm
+experiment_name: ealstm
 
 # place to store run directory (if empty runs are stored in code_dir/runs/)
 run_dir:
@@ -45,7 +45,7 @@ metrics:
 
 # base model type [cudalstm, ealstm]
 # (has to match the if statement in modelzoo/__init__.py)
-model: cudalstm
+model: ealstm
 
 # prediction head [regression]. Define the head specific parameters below
 head: regression
