@@ -11,7 +11,7 @@ for file in "$dir"/lstm*; do
 done
 
 unset -v ealstm_run
-for file in "$dir"/lstm*; do
+for file in "$dir"/ealstm*; do
   [[ $file -nt $ealstm_run ]] && ealstm_run=$file
 done
 
