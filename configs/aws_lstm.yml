@@ -1,7 +1,7 @@
 # --- Experiment configurations --------------------------------------------------------------------
 
 # experiment name, used as folder name
-experiment_name: lstm
+experiment_name: lstm_less_vars
 
 # place to store run directory (if empty runs are stored in code_dir/runs/)
 run_dir:
@@ -29,7 +29,7 @@ device: cuda:0
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 30
+validate_every: 5
 
 # specify how many random basins to use for validation
 validate_n_random_basins: 4
@@ -94,7 +94,7 @@ learning_rate:
 batch_size: 256
 
 # Number of training epochs
-epochs: 30  # 30
+epochs: 15  # 30
 
 # If True, clips norm of gradients
 clip_gradient_norm: True
@@ -168,7 +168,6 @@ target_variable:
 # Which CAMELS attributes to use. Leave empty if none should be used
 camels_attributes:
 - area
-- dpsbar
 - elev_mean
 - sand_perc
 - silt_perc
@@ -176,10 +175,6 @@ camels_attributes:
 - porosity_hypres
 - conductivity_hypres
 - soil_depth_pelletier
-- slope_fdc
-- baseflow_index
-- aridity
-- frac_snow
 - dwood_perc
 - ewood_perc
 - crop_perc
