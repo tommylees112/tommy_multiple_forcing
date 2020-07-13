@@ -125,7 +125,9 @@ class BaseDatasetBasin(Dataset):
                 x_d = self._get_feature_array(df=df_sub, features=self.dynamic_inputs)
                 y = self._get_feature_array(df=df_sub, features=self.target_variable)
 
-                if (np.isnan(y).sum() == y.size) or (np.isnan(y.flatten()).mean() == 1.0):
+                if (np.isnan(y).sum() == y.size) or (
+                    np.isnan(y.flatten()).mean() == 1.0
+                ):
                     raise NoTrainDataError(
                         "Basin contains no valid discharge observations in selected period."
                     )
@@ -197,7 +199,7 @@ class BaseDatasetBasin(Dataset):
         if x_s is not None:
             x_s = torch.from_numpy(x_s.astype(np.float32))
 
-        if (np.isnan(y.flatten()).mean() == 1.0):
+        if np.isnan(y.flatten()).mean() == 1.0:
             raise NoTrainDataError(
                 "Basin contains no valid discharge observations in selected period."
             )
