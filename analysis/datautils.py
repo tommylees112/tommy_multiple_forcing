@@ -4,25 +4,34 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import argparse
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Optional
 
 
 def get_args() -> Dict:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run_dir", type=str)
+    parser.add_argument("--epoch", type=int, default=None)
     args = vars(parser.parse_args())
 
     return args
 
 
-def get_validation_data(run_dir: Path) -> xr.Dataset:
+def get_validation_data(run_dir: Path, epoch: int = None) -> Tuple[xr.Dataset, int]:
     # open validation Dict
-    val_path = [d for d in (run_dir / "test").glob("*")]
-    val_path = max(val_path)
+    val_paths = [d for d in (run_dir / "test").glob("*")]
+    if epoch is None:
+        val_path = max(val_paths)
+        epoch = int(val_path.name[-3:])
+    else:
+        val_path = [path for path in val_paths if int(path.name[-3:]) == epoch]
+        assert val_path != [], f"Epoch: {epoch} has not been validated. Not in: {val_paths}"
+        assert len(val_path) == 1, "Expect one val path to match epoch number"
+        val_path = val_path[0]
+
     val_results: Dict = pickle.load(open(val_path / "test_results.p", "rb"))
 
     valid_ds = create_validation_dataset(val_results)
-    return valid_ds
+    return valid_ds, epoch
 
 
 def get_train_data(run_dir: Path) -> Tuple[xr.Dataset, ...]:
@@ -82,17 +91,22 @@ def create_validation_dataset(val_results: Dict) -> xr.Dataset:
     return valid_ds
 
 
-if __name__ == "__main__":
-    args = get_args()
-    run_dir = Path(args["run_dir"])
-    assert run_dir.exists()
+def create_results_csv(run_dir, epoch: Optional[int] = None) -> None:
 
-    valid_ds = get_validation_data(run_dir)
+    valid_ds, epoch = get_validation_data(run_dir, epoch=epoch)
 
     # save to netcdf
     # train_ds.to_netcdf('train_ds.nc')
     # valid_ds.to_netcdf()
     valid_ds.to_netcdf(run_dir / "valid_ds.nc")
-    valid_ds.to_dataframe().to_csv(run_dir / f"results_{run_dir.name}.csv")
+    valid_ds.to_dataframe().to_csv(run_dir / f"results_{run_dir.name}_E{epoch:03}.csv")
 
     print(f"Results written to {run_dir}")
+
+
+if __name__ == "__main__":
+    args = get_args()
+    run_dir = Path(args["run_dir"])
+    assert run_dir.exists()
+
+    create_results_csv(run_dir, epoch=epoch)
