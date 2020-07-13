@@ -215,9 +215,7 @@ class Tester(object):
 
             try:
                 # determine the end of the first sequence (first target in sequence-to-one)
-                date_range = pd.date_range(
-                    start=start_date, end=ds.period_end
-                )
+                date_range = pd.date_range(start=start_date, end=ds.period_end)
 
                 xr = xarray.Dataset(
                     data_vars=data,
