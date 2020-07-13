@@ -60,6 +60,12 @@ class TestCmdLine:
             run_dir / "test/model_epoch002/test_results.p"
         ).exists(), "Expect 2nd Epoch to have produced test results"
 
+        # ------- run datautils command ------- #
+        analysis_cmd = f"ipython analysis/datautils.py -- --run_dir {run_dir}"
+        with capsys.disabled():
+            print(f"Running Analysis:\n\t{analysis_cmd}")
+            os.system(eval_cmd)
+
         # ------- clear the data ------- #
         # rm test directory
         os.system(f"rm -rf {run_dir}")
