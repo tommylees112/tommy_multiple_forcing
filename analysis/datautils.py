@@ -107,6 +107,8 @@ def create_results_csv(run_dir, epoch: Optional[int] = None) -> None:
 if __name__ == "__main__":
     args = get_args()
     run_dir = Path(args["run_dir"])
+    epoch = Path(args["epoch"])
     assert run_dir.exists()
+    assert (epoch is None) or (isinstance(epoch, int))
 
     create_results_csv(run_dir, epoch=epoch)
