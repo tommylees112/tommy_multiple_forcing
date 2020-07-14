@@ -99,9 +99,10 @@ def create_results_csv(run_dir, epoch: Optional[int] = None) -> None:
     # train_ds.to_netcdf('train_ds.nc')
     # valid_ds.to_netcdf()
     valid_ds.to_netcdf(run_dir / "valid_ds.nc")
-    valid_ds.to_dataframe().to_csv(run_dir / f"results_{run_dir.name}_E{epoch:03}.csv")
+    outfile = run_dir / f"results_{run_dir.name}_E{epoch:03}.csv"
+    valid_ds.to_dataframe().to_csv(outfile)
 
-    print(f"Results written to {run_dir}")
+    print(f"Results written to {outfile}")
 
 
 if __name__ == "__main__":
