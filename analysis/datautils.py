@@ -91,7 +91,7 @@ def create_validation_dataset(val_results: Dict) -> xr.Dataset:
     return valid_ds
 
 
-def create_results_csv(run_dir, epoch: Optional[int] = None) -> None:
+def create_results_csv(run_dir, epoch: Optional[int] = None) -> pd.DataFrame:
 
     valid_ds, epoch = get_validation_data(run_dir, epoch=epoch)
 
@@ -100,9 +100,12 @@ def create_results_csv(run_dir, epoch: Optional[int] = None) -> None:
     # valid_ds.to_netcdf()
     valid_ds.to_netcdf(run_dir / "valid_ds.nc")
     outfile = run_dir / f"results_{run_dir.name}_E{epoch:03}.csv"
-    valid_ds.to_dataframe().to_csv(outfile)
+    valid_df = valid_ds.to_dataframe()
+    valid_df.to_csv(outfile)
 
     print(f"Results written to {outfile}")
+
+    return valid_df
 
 
 if __name__ == "__main__":
