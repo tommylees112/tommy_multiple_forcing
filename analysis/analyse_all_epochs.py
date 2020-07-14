@@ -30,7 +30,10 @@ def analyse_all_epochs(cfg: Dict, run_dir: Path) -> None:
         tester.evaluate(epoch=epoch, save_results=True, metrics=cfg.get("metrics", []))
         # run analysis (create the .csv object)
         valid_df = create_results_csv(run_dir, epoch=epoch)
-        valid_df = valid_df.set_index(["time", "station_id"])
+        if not all(np.isin(["station_id", "time"], [n for n in valid_df.index.names])):
+            valid_df = valid_df.set_index(["time", "station_id"])
+
+        assert all(np.isin(["station_id", "time"], [n for n in valid_df.index.names]))
         all_dfs.append(valid_df)
 
     # get the obs (ONCE)
