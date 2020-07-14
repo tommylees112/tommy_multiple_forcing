@@ -19,6 +19,7 @@ def get_args() -> Dict:
 
 
 def analyse_all_epochs(cfg: Dict, run_dir: Path) -> None:
+    # TODO: only run the code if the Tester has not yet already been run for that epoch
     tester = Tester(cfg, run_dir)
     epochs: List[int] = [
         int(d.name.replace(".pt", "")[-3:])
@@ -50,7 +51,9 @@ def analyse_all_epochs(cfg: Dict, run_dir: Path) -> None:
         df = df.join(d)
     df = df.join(obs)
 
-    df.to_csv(f"all_{run_dir.name}_results.csv")
+    outfile = run_dir / f"all_{run_dir.name}_results.csv"
+    print(f"** ALL Results written to: {outfile}")
+    df.to_csv(outfile)
 
 
 if __name__ == "__main__":
