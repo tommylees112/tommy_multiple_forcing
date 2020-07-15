@@ -1,7 +1,7 @@
 # --- Experiment configurations --------------------------------------------------------------------
 
 # experiment name, used as folder name
-experiment_name: lstm_less_vars
+experiment_name: lstm_less_vars_2004
 
 # place to store run directory (if empty runs are stored in code_dir/runs/)
 run_dir:
@@ -13,11 +13,11 @@ validation_basin_file: ./data/camels_gb_basin_list.txt
 test_basin_file: ./data/camels_gb_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
-train_start_date: '01/01/1985'
-train_end_date: '31/12/2009'
-validation_start_date: '01/01/1979'
-validation_end_date: '31/12/1984'
-test_start_date: '01/01/2010'
+train_start_date: '01/01/1980'
+train_end_date: '31/12/2003'
+validation_start_date: '01/01/1975'
+validation_end_date: '31/12/1980'
+test_start_date: '01/01/2004'
 test_end_date: '31/12/2015'
 
 # fixed seed, leave empty to use a random seed
