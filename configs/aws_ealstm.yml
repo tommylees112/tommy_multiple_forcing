@@ -50,6 +50,8 @@ model: ealstm
 # prediction head [regression]. Define the head specific parameters below
 head: regression
 
+output_activation: relu
+
 # ----> Embedding network settings <----
 # DELETE FOR CUDALSTM
 
@@ -140,10 +142,8 @@ data_dir: /home/tommy/CAMELS_GB_DATASET
 # Path to pre-processed hdf5 file here (and corresponding scaler pickle file). Leave empty to create
 # new hdf5 file
 #  train_data.h5  train_data_scaler.p
-h5_file:
-scaler_file:
-# /home/tommy/tommy_multiple_forcing/runs/lstm_less_vars_1307_1452/train_data/train_data.h5
-# /home/tommy/tommy_multiple_forcing/runs/lstm_less_vars_1307_1452/train_data/train_data_scaler.p
+h5_file: /home/tommy/tommy_multiple_forcing/runs/lstm_less_vars_2004_1507_1028/train_data/train_data.h5
+scaler_file: /home/tommy/tommy_multiple_forcing/runs/lstm_less_vars_2004_1507_1028/train_data/train_data_scaler.p
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
