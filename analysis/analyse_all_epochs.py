@@ -41,7 +41,7 @@ def analyse_all_epochs(cfg: Dict, run_dir: Path) -> None:
     obs = valid_df["obs"]
     # rename the sim (for all)
     all_dfs = [
-        df.rename(columns={"sim": f"sim_E{epoch}"}).drop(columns="obs")
+        df.rename(columns={"sim": f"sim_E{epoch:03}"}).drop(columns="obs")
         for epoch, df in zip(epochs, all_dfs)
     ]
 
