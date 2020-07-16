@@ -29,7 +29,7 @@ device: cuda:0
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 5
+validate_every: 3
 
 # specify how many random basins to use for validation
 validate_n_random_basins: 4
@@ -49,7 +49,7 @@ model: cudalstm
 
 # prediction head [regression]. Define the head specific parameters below
 head: regression
-output_activation: relu
+output_activation:
 
 # ----> Embedding network settings <----
 # DELETE FOR CUDALSTM
