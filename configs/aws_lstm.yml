@@ -49,7 +49,6 @@ model: cudalstm
 
 # prediction head [regression]. Define the head specific parameters below
 head: regression
-output_activation:
 
 # ----> Embedding network settings <----
 # DELETE FOR CUDALSTM
