@@ -1,3 +1,10 @@
+"""
+1. Run the training
+    $ ipython --pdb main.py -- --config_file /path/to/config
+
+2. Create Analysis objects (.nc, .csv)
+    $ ipython --pdb analysis/analyse_all_epochs.py -- --run_dir /cats/datastore/data/runs/lstm_less_vars_2004_1507_1028
+"""
 import xarray as xr
 import pickle
 from pathlib import Path
