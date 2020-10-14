@@ -15,6 +15,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 from typing import Tuple
+from pathlib import Path
 
 
 class BaseDatasetH5(Dataset):
@@ -24,8 +25,14 @@ class BaseDatasetH5(Dataset):
         self.cfg = cfg
 
         # get dictionary of feature scaler
-        with self.scaler_file.open("rb") as fp:
-            self.scaler = pickle.load(fp)
+        try:
+            with self.scaler_file.open("rb") as fp:
+                self.scaler = pickle.load(fp)
+        except AttributeError:
+            # scaler_file is a string not Path
+            with Path(self.scaler_file).open("rb") as fp:
+                self.scaler = pickle.load(fp)
+
 
         # preload data if cached is true
         if self.cfg["cache_data"]:
