@@ -143,15 +143,20 @@ class BaseTrainer(object):
             experiment_name = "run"
         run_name = f"{experiment_name}_{day}{month}_{hour}{minute}"
         code_root = Path(__file__).absolute().parent.parent.parent
+
+        # check whether run_dir has been passed in config
         if ("run_dir" in self.cfg.keys()) and (self.cfg["run_dir"] is not None):
             self.cfg["run_dir"] = self.cfg["run_dir"] / run_name
         else:
             self.cfg["run_dir"] = code_root / "runs" / run_name
+
+        # check whether run_dir exists (need it to NotExist)
         if not self.cfg["run_dir"].is_dir():
             self.cfg["train_dir"] = self.cfg["run_dir"] / "train_data"
             self.cfg["train_dir"].mkdir(parents=True)
         else:
             raise RuntimeError(f"There is already a folder at {self.cfg['run_dir']}")
+
         if self.cfg.get("log_n_figures", 0) > 0:
             self.cfg["img_dir"] = Path(self.cfg["run_dir"], "img_log")
             self.cfg["trainlog_dir"] = Path(self.cfg["img_dir"], "progress_log")
