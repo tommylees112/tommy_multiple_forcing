@@ -111,7 +111,6 @@ class CamelsGBCSV(BaseDatasetBasin):
             i for i in df.loc[df.isnull().sum(axis=1) > 0].index
         ]
 
-        # TODO: TOMMY WAS HERE
         if self.basin in basins_missing_attributes:
             raise NoTrainDataError(
                 f"Basin {self.basin} has missing data in the Static Attributes!"

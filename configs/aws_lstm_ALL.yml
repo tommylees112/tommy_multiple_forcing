@@ -1,7 +1,7 @@
 # --- Experiment configurations --------------------------------------------------------------------
 
 # experiment name, used as folder name
-experiment_name: lstm
+experiment_name: lstm_ALL_vars_2004
 
 # place to store run directory (if empty runs are stored in code_dir/runs/)
 run_dir:
@@ -13,11 +13,11 @@ validation_basin_file: ./data/camels_gb_basin_list.txt
 test_basin_file: ./data/camels_gb_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
-train_start_date: '01/01/1985'
-train_end_date: '31/12/2009'
-validation_start_date: '01/01/1979'
-validation_end_date: '31/12/1984'
-test_start_date: '01/01/2010'
+train_start_date: '01/01/1980'
+train_end_date: '31/12/2003'
+validation_start_date: '01/01/1975'
+validation_end_date: '31/12/1980'
+test_start_date: '01/01/2004'
 test_end_date: '31/12/2015'
 
 # fixed seed, leave empty to use a random seed
@@ -29,7 +29,7 @@ device: cuda:0
 # --- Validation configuration ---------------------------------------------------------------------
 
 # specify after how many epochs to perform validation
-validate_every: 30
+validate_every: 3
 
 # specify how many random basins to use for validation
 validate_n_random_basins: 4
@@ -94,7 +94,7 @@ learning_rate:
 batch_size: 256
 
 # Number of training epochs
-epochs: 5  # 30
+epochs: 15  # 30
 
 # If True, clips norm of gradients
 clip_gradient_norm: True
@@ -141,13 +141,9 @@ data_dir: /cats/datastore/data/CAMELS_GB_DATASET
 # new hdf5 file
 #  train_data.h5  train_data_scaler.p
 h5_file:
-# /cats/datastore/data/runs/tommy_camels_gb_0607_1205/train_data/train_data.h5
+# /cats/datastore/data/runs/lstm_less_vars_2004_1507_1028/train_data/train_data.h5
 scaler_file:
-# /cats/datastore/data/runs/tommy_camels_gb_0607_1205/train_data/train_data_scaler.p
-
-# 20yr training data
-# /home/tommy/tommy_multiple_forcing/runs/tommy_camels_gb_0607_1003/train_data/train_data.h5
-# /home/tommy/tommy_multiple_forcing/runs/tommy_camels_gb_0607_1003/train_data/train_data_scaler.p
+# /cats/datastore/data/runs/lstm_less_vars_2004_1507_1028/train_data/train_data_scaler.p
 
 # whether to load the entire data into memory or not (2x as much data if cache_validation: True)
 cache_data: True
@@ -166,6 +162,8 @@ dynamic_inputs:
 - precipitation
 - peti
 - temperature
+- shortwave_rad
+- humidity
 
 # which columns to use as target
 target_variable:
@@ -174,23 +172,27 @@ target_variable:
 # Which CAMELS attributes to use. Leave empty if none should be used
 camels_attributes:
 - area
-- dpsbar
 - elev_mean
+- dpsbar
 - sand_perc
 - silt_perc
 - clay_perc
 - porosity_hypres
 - conductivity_hypres
 - soil_depth_pelletier
-- slope_fdc
-- baseflow_index
-- aridity
-- frac_snow
 - dwood_perc
 - ewood_perc
 - crop_perc
 - urban_perc
 - reservoir_cap
+- p_mean
+- pet_mean
+- p_seasonality
+- frac_snow
+- high_prec_freq
+- low_prec_freq
+- high_prec_dur
+- low_prec_dur
 
 # TOMMY: --> Not implemented
 # Path to pickle file(s) containing additional data. Each pickle file must contain a dictionary

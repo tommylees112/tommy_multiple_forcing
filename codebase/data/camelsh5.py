@@ -23,6 +23,7 @@ class CamelsGBH5(BaseDatasetH5):
                 data_dir=self.cfg["data_dir"], basins=self.basins
             )
 
+            # keep only the selected attributes
             drop_cols = [
                 c for c in df.columns if c not in self.cfg["camels_attributes"]
             ]

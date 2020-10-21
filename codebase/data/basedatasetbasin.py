@@ -224,7 +224,7 @@ class BaseDatasetBasin(Dataset):
     def __len__(self):
         return self.num_samples
 
-    def __getitem__(self, idx: int):
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor]:
         if (self.attributes is not None) and (self.x_s is not None):
             x_s = torch.cat([self.attributes, self.x_s[idx]], dim=-1)
         elif self.attributes is not None:
