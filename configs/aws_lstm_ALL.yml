@@ -4,7 +4,7 @@
 experiment_name: lstm_ALL_vars_2004
 
 # place to store run directory (if empty runs are stored in code_dir/runs/)
-run_dir:
+run_dir: /cats/datastore/data/runs/
 
 # files to specify training, validation and test basins (relative to code root or absolute path)
 # camels_gb_basin_list.txt  gb_basins_sub.txt  test_basins.txt
@@ -13,12 +13,12 @@ validation_basin_file: ./data/camels_gb_basin_list.txt
 test_basin_file: ./data/camels_gb_basin_list.txt
 
 # training, validation and test time periods (format = 'dd/mm/yyyy')
-train_start_date: '01/01/1980'
-train_end_date: '31/12/2003'
-validation_start_date: '01/01/1975'
-validation_end_date: '31/12/1980'
-test_start_date: '01/01/2004'
-test_end_date: '31/12/2015'
+train_start_date: '01/10/1980'
+train_end_date: '31/12/1997'
+validation_start_date: '01/10/1975'
+validation_end_date: '30/09/1980'
+test_start_date: '01/01/1998'
+test_end_date: '31/12/2008'
 
 # fixed seed, leave empty to use a random seed
 seed: 1234
@@ -160,8 +160,6 @@ dynamic_inputs:
 - precipitation
 - peti
 - temperature
-- shortwave_rad
-- humidity
 
 # which columns to use as target
 target_variable:
