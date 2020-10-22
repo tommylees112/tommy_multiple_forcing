@@ -99,7 +99,7 @@ def create_results_csv(run_dir, epoch: Optional[int] = None) -> pd.DataFrame:
     valid_ds, epoch = get_validation_data(run_dir, epoch=epoch)
 
     # save to netcdf
-    train_ds.to_netcdf(run_dir / 'train_ds.nc')
+    # train_ds.to_netcdf(run_dir / 'train_ds.nc')
     valid_ds.to_netcdf(run_dir / "valid_ds.nc")
     outfile = run_dir / f"results_{run_dir.name}_E{epoch:03}.csv"
     valid_df = valid_ds.to_dataframe()
