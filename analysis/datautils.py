@@ -1,4 +1,5 @@
 """
+ipython --pdb main.py evaluate -- --run_dir  /cats/datastore/data/runs/lstm_ALL_vars_2004_2210_1035/
 ipython --pdb analysis/datautils.py --run_dir /cats/datastore/data/runs/lstm_less_vars_2004_1507_1028
 """
 import xarray as xr
