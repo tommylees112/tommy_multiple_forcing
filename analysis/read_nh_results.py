@@ -86,7 +86,7 @@ def get_test_filepath(run_dir: Path, epoch: Optional[int]) -> Path:
 
 
 def get_ensemble_path(run_dir: Path, ensemble_filename: str = "ensemble_results.p") -> Path:
-    test_dir = run_dir / ensemble_filename
+    res_fp = run_dir / ensemble_filename
     assert res_fp.exists(), f"Has validation been run? I cannot find {res_fp}"
     return res_fp
 
