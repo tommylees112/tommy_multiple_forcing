@@ -171,7 +171,10 @@ if __name__ == "__main__":
     # create csv with informative name
     if save_csv:
         print("** Writing results as .csv file **")
-        fname = f"{test_dir.parents[1].name}_E{epoch:03}.csv"
+        try:
+            fname = f"{test_dir.parents[1].name}_E{epoch:03}.csv"
+        except:
+            fname = f"{test_dir.parents[1].name}_ENS.csv"
         df = get_old_format_dataframe(ds)
         df.to_csv(test_dir / fname)
 
