@@ -107,7 +107,11 @@ def get_ds_and_metrics(res_fp: Path) -> Union[xr.Dataset, pd.DataFrame]:
 
     for station_id in tqdm(stations):
         # extract the raw results
-        xr_obj = res_dict[station_id][freq]["xr"].isel(time_step=0).drop("time_step")
+        try:
+            xr_obj = res_dict[station_id][freq]["xr"].isel(time_step=0).drop("time_step")
+        except ValueError:
+            # ensemble mode does not have "time_step" dimension
+            xr_obj = res_dict[station_id][freq]["xr"].rename({"datetime": "date"})
         xr_obj = xr_obj.expand_dims({"station_id": [station_id]}).rename({"date": "time"})
         all_xr_objects.append(xr_obj)
 
