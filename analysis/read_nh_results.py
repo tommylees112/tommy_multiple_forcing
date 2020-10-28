@@ -13,7 +13,7 @@
 2) Evaluate
     `ipython --pdb neuralhydrology/nh_run_scheduler.py evaluate -- --directory /cats/datastore/data/runs/ensemble --runs-per-gpu 2 --gpu-ids 0`
 3) Merge Results
-    `ipython --pdb neuralhydrology/utils/nh_results_ensemble.py -- --run-dirs /cats/datastore/data/runs/ensemble/*  --save-file /cats/datastore/data/runs/ensemble/ensemble_results.p --metrics NSE MSE KGE`
+    `ipython --pdb neuralhydrology/utils/nh_results_ensemble.py -- --run-dirs /cats/datastore/data/runs/ensemble/*  --save-file /cats/datastore/data/runs/ensemble/ensemble_results.p --metrics NSE MSE KGE FHV FMS FLV`
 4) Extract Results
     `ipython --pdb analysis/read_nh_results.py -- --run_dir /path/to/run_dir --ensemble True --ensemble_filename /cats/datastore/data/runs/ensemble/ensemble_results.p`
 """
@@ -121,15 +121,24 @@ def get_ds_and_metrics(res_fp: Path) -> Union[xr.Dataset, pd.DataFrame]:
             output_metrics_dict["NSE"].append(res_dict[station_id][freq]["NSE"])
             output_metrics_dict["KGE"].append(res_dict[station_id][freq]["KGE"])
             output_metrics_dict["MSE"].append(res_dict[station_id][freq]["MSE"])
+            output_metrics_dict["FHV"].append(res_dict[station_id][freq]["FHV"])
+            output_metrics_dict["FMS"].append(res_dict[station_id][freq]["FMS"])
+            output_metrics_dict["FLV"].append(res_dict[station_id][freq]["FLV"])
         except KeyError:
             try:
                 output_metrics_dict["NSE"].append(res_dict[station_id][freq][f"NSE_{freq}"])
                 output_metrics_dict["KGE"].append(res_dict[station_id][freq][f"KGE_{freq}"])
                 output_metrics_dict["MSE"].append(res_dict[station_id][freq][f"MSE_{freq}"])
+                output_metrics_dict["FHV"].append(res_dict[station_id][freq][f"FHV_{freq}"])
+                output_metrics_dict["FMS"].append(res_dict[station_id][freq][f"FMS_{freq}"])
+                output_metrics_dict["FLV"].append(res_dict[station_id][freq][f"FLV_{freq}"])
             except KeyError:
                 output_metrics_dict["NSE"].append(np.nan)
                 output_metrics_dict["KGE"].append(np.nan)
                 output_metrics_dict["MSE"].append(np.nan)
+                output_metrics_dict["FHV"].append(np.nan)
+                output_metrics_dict["FMS"].append(np.nan)
+                output_metrics_dict["FLV"].append(np.nan)
 
     # merge all stations into one xarray object
     ds = xr.concat(all_xr_objects, dim="station_id")
