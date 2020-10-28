@@ -15,7 +15,7 @@
 3) Merge Results
     `ipython --pdb neuralhydrology/utils/nh_results_ensemble.py -- --run-dirs /cats/datastore/data/runs/ensemble/*  --save-file /cats/datastore/data/runs/ensemble/ensemble_results.p --metrics NSE MSE KGE`
 4) Extract Results
-    `ipython --pdb analysis/read_nh_results -- --run_dir /path/to/run_dir --ensemble True --ensemble_filename ensemble_results.p`
+    `ipython --pdb analysis/read_nh_results.py -- --run_dir /path/to/run_dir --ensemble True --ensemble_filename /cats/datastore/data/runs/ensemble/ensemble_results.p`
 """
 import xarray as xr
 import pickle
@@ -120,9 +120,16 @@ def get_ds_and_metrics(res_fp: Path) -> Union[xr.Dataset, pd.DataFrame]:
         try:
             output_metrics_dict["NSE"].append(res_dict[station_id][freq]["NSE"])
             output_metrics_dict["KGE"].append(res_dict[station_id][freq]["KGE"])
+            output_metrics_dict["MSE"].append(res_dict[station_id][freq]["MSE"])
         except KeyError:
-            output_metrics_dict["NSE"].append(np.nan)
-            output_metrics_dict["KGE"].append(np.nan)
+            try:
+                output_metrics_dict["NSE"].append(res_dict[station_id][freq][f"NSE_{freq}"])
+                output_metrics_dict["KGE"].append(res_dict[station_id][freq][f"KGE_{freq}"])
+                output_metrics_dict["MSE"].append(res_dict[station_id][freq][f"MSE_{freq}"])
+            except KeyError:
+                output_metrics_dict["NSE"].append(np.nan)
+                output_metrics_dict["KGE"].append(np.nan)
+                output_metrics_dict["MSE"].append(np.nan)
 
     # merge all stations into one xarray object
     ds = xr.concat(all_xr_objects, dim="station_id")
@@ -164,7 +171,7 @@ if __name__ == "__main__":
     ds, metric_df = get_ds_and_metrics(res_fp)
 
     # SAVE
-    print("Writing `results.nc` and `metric_df.csv`")
+    print("** Writing `results.nc` and `metric_df.csv` **")
     ds.to_netcdf(test_dir / "results.nc")
     metric_df.to_csv(test_dir / "metric_df.csv")
 
